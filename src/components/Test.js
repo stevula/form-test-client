@@ -19,7 +19,7 @@ class Test extends Component {
 
 Test.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
-  questions: PropTypes.string.isRequired,
+  questions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = state => ({

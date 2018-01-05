@@ -49,6 +49,6 @@ export const fetchQuestions = () => (dispatch) => {
   return axios.get(`${API_ROOT}/questions`, {
     headers: { authorization: window.localStorage.getItem('token') },
   })
-    .then(response => dispatch(receiveQuestions(response.data.message)))
+    .then(response => dispatch(receiveQuestions(response.data.questions)))
     .catch(error => dispatch(addError(error.response.data.message)));
 };

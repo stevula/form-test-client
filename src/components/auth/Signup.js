@@ -71,7 +71,7 @@ class Signup extends Component {
     if (isSignedIn) {
       return (
         <Redirect to={{
-          pathname: '/feature',
+          pathname: '/test',
           state: { from: this.props.location },
         }} />
       );
