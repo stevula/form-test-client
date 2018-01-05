@@ -14,8 +14,8 @@ class Signup extends Component {
     this.renderAlert = this.renderAlert.bind(this);
   }
 
-  handleFormSubmit({ email, password }, dispatch) {
-    dispatch(signupUser({ email, password }));
+  handleFormSubmit({ email, firstName, lastName }, dispatch) {
+    dispatch(signupUser({ email, firstName, lastName }));
   }
 
   isValidEmail(email) {
@@ -145,14 +145,6 @@ Signup.propTypes = {
   submitting: PropTypes.bool.isRequired,
 };
 
-const validate = (values) => {
-  const errors = {};
-  if (values.password !== values.passwordConfirm) {
-    errors.passwordConfirm = 'Passwords do not match.';
-  }
-  return errors;
-};
-
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
   isSignedIn: state.isSignedIn,
@@ -160,5 +152,4 @@ const mapStateToProps = state => ({
 
 export default reduxForm({
   form: 'signup',
-  validate,
 })(connect(mapStateToProps)(Signup));

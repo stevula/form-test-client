@@ -11,8 +11,8 @@ export const addError = error => ({ type: ADD_ERROR, error });
 export const REMOVE_ERROR = 'REMOVE_ERROR';
 export const removeError = error => ({ type: ADD_ERROR, error });
 
-export const signinUser = ({ email, password }) => (dispatch) => {
-  return axios.post(`${API_ROOT}/signin`, { email, password })
+export const signinUser = ({ email, firstName, lastName }) => (dispatch) => {
+  return axios.post(`${API_ROOT}/signin`, { email, firstName, lastName })
     .then((response) => {
       // dispatch(removeError());
       window.localStorage.setItem('token', response.data.token);
@@ -21,8 +21,8 @@ export const signinUser = ({ email, password }) => (dispatch) => {
     .catch(error => dispatch(addError(error.message)));
 };
 
-export const signupUser = ({ email, password }) => (dispatch) => {
-  return axios.post(`${API_ROOT}/signup`, { email, password })
+export const signupUser = ({ email, firstName, lastName }) => (dispatch) => {
+  return axios.post(`${API_ROOT}/signup`, { email, firstName, lastName })
     .then((response) => {
       // dispatch(removeError());
       window.localStorage.setItem('token', response.data.token);
