@@ -70,7 +70,7 @@ class Question extends Component {
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)}>
         <Field
-          label={this.props.question}
+          label={this.props.question.text}
           id="first-name"
           name="firstName"
           className="form-control"
@@ -96,7 +96,7 @@ class Question extends Component {
 Question.propTypes = {
   errorMessage: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
-  question: PropTypes.string.isRequired,
+  question: PropTypes.object.isRequired,
   submitting: PropTypes.bool.isRequired,
 };
 

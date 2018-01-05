@@ -10,6 +10,11 @@ class Test extends Component {
   }
 
   render() {
+    if (this.props.questions.length === 0) {
+      // TODO render loading view
+      return null;
+    }
+
     return (
       <div>
         <Question question={this.props.questions[this.props.questionNumber]} />
@@ -21,7 +26,7 @@ class Test extends Component {
 Test.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
   questionNumber: PropTypes.string.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = state => ({
