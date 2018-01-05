@@ -61,3 +61,7 @@ export const fetchQuestions = () => (dispatch) => {
     })
     .catch(error => dispatch(addError(error.response.data.message)));
 };
+
+export const submitQuestion = () => (dispatch) => {
+  // todo
+};
