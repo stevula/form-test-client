@@ -45,9 +45,9 @@ export const receiveQuestions = questions => ({
   questions,
 });
 
-export const SET_QUESTION_NUMBER = 'SET_QUESTION_NUMBER';
-export const setQuestionNumber = questionNumber => ({
-  type: SET_QUESTION_NUMBER,
+export const INCREMENT_QUESTION_NUMBER = 'INCREMENT_QUESTION_NUMBER';
+export const incrementQuestionNumber = questionNumber => ({
+  type: INCREMENT_QUESTION_NUMBER,
   questionNumber,
 });
 
@@ -55,13 +55,15 @@ export const fetchQuestions = () => (dispatch) => {
   return axios.get(`${API_ROOT}/questions`, {
     headers: { authorization: window.localStorage.getItem('token') },
   })
-    .then((response) => {
-      dispatch(receiveQuestions(response.data.questions));
-      dispatch(setQuestionNumber(0));
-    })
+    .then(response => dispatch(receiveQuestions(response.data.questions)))
     .catch(error => dispatch(addError(error.response.data.message)));
 };
 
 export const submitQuestion = () => (dispatch) => {
+  dispatch(incrementQuestionNumber());
+};
+
+export const submitFinalQuestion = () => (dispatch) => {
   // todo
 };
+

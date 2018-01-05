@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import { submitQuestion } from '../actions';
+import { submitQuestion, submitFinalQuestion } from '../actions';
 
 class Question extends Component {
   constructor(props) {
@@ -14,7 +14,11 @@ class Question extends Component {
   }
 
   handleFormSubmit({ questionNumber, answer }, dispatch) {
-    dispatch(submitQuestion({ questionNumber, answer }));
+    if (this.props.isLastQuestion) {
+      dispatch(submitFinalQuestion);
+    } else {
+      dispatch(submitQuestion({ questionNumber, answer }));
+    }
   }
 
   isValidEmail(email) {
@@ -65,7 +69,7 @@ class Question extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit, submitting, isLastQuestion } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)}>
@@ -86,7 +90,7 @@ class Question extends Component {
           disabled={submitting}
           className="btn btn-primary"
         >
-          Next
+          {isLastQuestion ? 'Submit' : 'Next'}
         </button>
       </form>
     );
@@ -96,6 +100,7 @@ class Question extends Component {
 Question.propTypes = {
   errorMessage: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
+  isLastQuestion: PropTypes.bool.isRequired,
   question: PropTypes.object.isRequired,
   submitting: PropTypes.bool.isRequired,
 };

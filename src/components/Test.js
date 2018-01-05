@@ -15,9 +15,17 @@ class Test extends Component {
       return null;
     }
 
+    const currentQuestion = this.props.questions[this.props.questionNumber];
+    const isLastQuestion = (
+      this.props.questionNumber === this.props.questions.length - 1
+    );
+
     return (
       <div>
-        <Question question={this.props.questions[this.props.questionNumber]} />
+        <Question
+          question={currentQuestion}
+          isLastQuestion={isLastQuestion}
+        />
       </div>
     );
   }
