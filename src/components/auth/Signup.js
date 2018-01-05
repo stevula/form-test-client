@@ -80,35 +80,46 @@ class Signup extends Component {
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)}>
         <Field
-          label="Email"
-          id="email"
-          name="email"
+          label="First name"
+          id="first-name"
+          name="firstName"
           className="form-control"
           component={this.renderField}
-          validate={[this.isValidEmail, this.isRequired]}
+          validate={this.isRequired}
           type="text"
           required
         />
 
         <Field
-          label="Password"
-          id="password"
-          name="password"
+          label="Last name"
+          id="last-name"
+          name="lastName"
           className="form-control"
           component={this.renderField}
           validate={this.isRequired}
-          type="password"
+          type="text"
           required
         />
 
         <Field
-          label="Confirm password"
-          id="password-confirm"
-          name="passwordConfirm"
+          label="E-mail address"
+          id="email"
+          name="email"
+          className="form-check-input"
+          component={this.renderField}
+          validate={[this.isValidEmail, this.isRequired]}
+          type="email"
+          required
+        />
+
+        <Field
+          label="I accept and agree to the Terms of Use and Privacy Statement"
+          id="tos"
+          name="tos"
           className="form-control"
           component={this.renderField}
           validate={this.isRequired}
-          type="password"
+          type="checkbox"
           required
         />
 
