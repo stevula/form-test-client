@@ -5,7 +5,7 @@ const timer = (state = 0, action) => {
     case SET_TIMER:
       return action.ms;
     case TICK:
-      return action.ms - 1000;
+      return state - 1000;
     default:
       return state;
   }

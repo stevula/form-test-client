@@ -33,7 +33,7 @@ class Test extends Component {
 
 Test.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
-  questionNumber: PropTypes.string.isRequired,
+  questionNumber: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

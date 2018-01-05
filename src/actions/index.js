@@ -86,10 +86,9 @@ export const tick = () => ({
 });
 
 let timer;
-export const START_TIMER = 'START_TIMER';
-export const startTimer = ms => dispatch => {
+export const startTimer = ms => (dispatch) => {
   clearInterval(timer);
-  dispatch(setTimer(ms));
   timer = setInterval(() => dispatch(tick()), 1000);
+  dispatch(setTimer(ms));
   dispatch(tick());
 };

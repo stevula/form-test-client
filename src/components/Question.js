@@ -78,7 +78,7 @@ class Question extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-        Time remaining: {this.props.timer}
+        Time remaining: {this.props.timer / 1000}
 
         <Field
           label={this.props.question.text}
