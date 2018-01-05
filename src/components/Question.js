@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import { submitQuestion, submitFinalQuestion } from '../actions';
+import { submitQuestion, submitFinalQuestion, startTimer } from '../actions';
 
 class Question extends Component {
   constructor(props) {
@@ -13,12 +13,17 @@ class Question extends Component {
     this.renderAlert = this.renderAlert.bind(this);
   }
 
+  componentDidMount() {
+    this.props.startTimer(this.props.question.ms);
+  }
+
   handleFormSubmit({ questionNumber, answer }, dispatch) {
     if (this.props.isLastQuestion) {
       dispatch(submitFinalQuestion);
     } else {
       dispatch(submitQuestion({ questionNumber, answer }));
     }
+    // TODO figure out bug where validations don't apply to questions >= 1
   }
 
   isValidEmail(email) {
@@ -73,6 +78,8 @@ class Question extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+        Time remaining: {this.props.timer}
+
         <Field
           label={this.props.question.text}
           id="first-name"
@@ -107,8 +114,9 @@ Question.propTypes = {
 
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
+  timer: state.timer,
 });
 
 export default reduxForm({
   form: 'question',
-})(connect(mapStateToProps)(Question));
+})(connect(mapStateToProps, { startTimer })(Question));

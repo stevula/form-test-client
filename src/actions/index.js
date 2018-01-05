@@ -67,9 +67,29 @@ export const clearFormData = () => ({
 export const submitQuestion = () => (dispatch) => {
   dispatch(incrementQuestionNumber());
   dispatch(clearFormData());
+  // TODO send data to server
 };
 
 export const submitFinalQuestion = () => (dispatch) => {
-  // todo
+  // TODO send data to server and render confirmation page
 };
 
+export const SET_TIMER = 'SET_TIMER';
+const setTimer = ms => ({
+  type: SET_TIMER,
+  ms,
+});
+
+export const TICK = 'TICK';
+export const tick = () => ({
+  type: TICK,
+});
+
+let timer;
+export const START_TIMER = 'START_TIMER';
+export const startTimer = ms => dispatch => {
+  clearInterval(timer);
+  dispatch(setTimer(ms));
+  timer = setInterval(() => dispatch(tick()), 1000);
+  dispatch(tick());
+};
