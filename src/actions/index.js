@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ROOT = 'http://localhost:4000';
+const API_ROOT = process.env.API_ROOT || 'http://localhost:4000';
 
 export const AUTH_USER = 'AUTH_USER';
 export const authUser = () => ({ type: AUTH_USER });
@@ -64,13 +64,13 @@ export const clearFormData = () => ({
   type: CLEAR_FORM_DATA,
 });
 
-export const submitQuestion = () => (dispatch) => {
+export const submitQuestion = ({ questionNumber, answer }) => (dispatch) => {
   dispatch(incrementQuestionNumber());
   dispatch(clearFormData());
   // TODO send data to server
 };
 
-export const submitFinalQuestion = () => (dispatch) => {
+export const submitFinalQuestion = ({ questionNumber, answer }) => (dispatch) => {
   // TODO send data to server and render confirmation page
 };
 
@@ -80,15 +80,13 @@ const setTimer = ms => ({
   ms,
 });
 
-export const TICK = 'TICK';
-export const tick = () => ({
-  type: TICK,
-});
+export const TICK_TIMER = 'TICK_TIMER';
+export const tickTimer = () => ({ type: TICK_TIMER });
 
 let timer;
 export const startTimer = ms => (dispatch) => {
   clearInterval(timer);
-  timer = setInterval(() => dispatch(tick()), 1000);
+  timer = setInterval(() => dispatch(tickTimer()), 1000);
   dispatch(setTimer(ms));
-  dispatch(tick());
+  dispatch(tickTimer());
 };

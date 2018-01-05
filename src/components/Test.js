@@ -24,6 +24,7 @@ class Test extends Component {
       <div>
         <Question
           question={currentQuestion}
+          questionNumber={this.props.questionNumber}
           isLastQuestion={isLastQuestion}
         />
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
 import PropTypes from 'prop-types';
 import { submitQuestion, submitFinalQuestion, startTimer } from '../actions';
 
@@ -17,11 +17,21 @@ class Question extends Component {
     this.props.startTimer(this.props.question.ms);
   }
 
-  handleFormSubmit({ questionNumber, answer }, dispatch) {
+  componentDidUpdate(prevProps) {
+    if (this.props.question !== prevProps.question) {
+      this.props.startTimer(this.props.question.ms);
+    }
+    if (this.props.timer <= 0) {
+      const { questionNumber, answer } = this.props;
+      this.handleFormSubmit({ questionNumber, answer });
+    }
+  }
+
+  handleFormSubmit({ questionNumber, answer }) {
     if (this.props.isLastQuestion) {
-      dispatch(submitFinalQuestion);
+      this.props.submitFinalQuestion({ questionNumber, answer });
     } else {
-      dispatch(submitQuestion({ questionNumber, answer }));
+      this.props.submitQuestion({ questionNumber, answer });
     }
     // TODO figure out bug where validations don't apply to questions >= 1
   }
@@ -73,17 +83,19 @@ class Question extends Component {
     );
   }
 
+  // TODO create Timer component
+  // TODO show time in mm:ss
   render() {
     const { handleSubmit, submitting, isLastQuestion } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-        Time remaining: {this.props.timer / 1000}
+        Seconds remaining: {this.props.timer / 1000}
 
         <Field
           label={this.props.question.text}
-          id="first-name"
-          name="firstName"
+          id="question"
+          name="question"
           className="form-control"
           component={this.renderField}
           validate={this.isRequired}
@@ -105,18 +117,38 @@ class Question extends Component {
 }
 
 Question.propTypes = {
+  answer: PropTypes.string,
   errorMessage: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   isLastQuestion: PropTypes.bool.isRequired,
   question: PropTypes.object.isRequired,
+  questionNumber: PropTypes.number.isRequired,
+  startTimer: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
+  timer: PropTypes.number.isRequired,
+  submitFinalQuestion: PropTypes.func.isRequired,
+  submitQuestion: PropTypes.func.isRequired,
 };
+
+const form = 'question';
+const selector = formValueSelector(form);
 
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
+  answer: selector(state, 'question'),
   timer: state.timer,
 });
 
+const mapDispatchToProps = dispatch => ({
+  startTimer: ms => dispatch(startTimer(ms)),
+  submitFinalQuestion: ({ questionNumber, answer }) => {
+    dispatch(submitFinalQuestion({ questionNumber, answer }));
+  },
+  submitQuestion: ({ questionNumber, answer }) => {
+    dispatch(submitQuestion({ questionNumber, answer }));
+  },
+});
+
 export default reduxForm({
-  form: 'question',
-})(connect(mapStateToProps, { startTimer })(Question));
+  form,
+})(connect(mapStateToProps, mapDispatchToProps)(Question));
