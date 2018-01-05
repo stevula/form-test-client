@@ -59,8 +59,14 @@ export const fetchQuestions = () => (dispatch) => {
     .catch(error => dispatch(addError(error.response.data.message)));
 };
 
+export const CLEAR_FORM_DATA = 'CLEAR_FORM_DATA';
+export const clearFormData = () => ({
+  type: CLEAR_FORM_DATA,
+});
+
 export const submitQuestion = () => (dispatch) => {
   dispatch(incrementQuestionNumber());
+  dispatch(clearFormData());
 };
 
 export const submitFinalQuestion = () => (dispatch) => {

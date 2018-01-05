@@ -4,10 +4,22 @@ import errorMessage from './errorMessage';
 import isSignedIn from './isSignedIn';
 import questions from './questions';
 import questionNumber from './questionNumber';
+import { CLEAR_FORM_DATA } from '../actions';
 
 const rootReducer = combineReducers({
   errorMessage,
-  form,
+  form: form.plugin({
+    // clear the question form on clicking next
+    // https://redux-form.com/6.0.0-alpha.4/docs/faq/howtoclear.md/
+    question: (state, action) => {
+      switch (action.type) {
+        case CLEAR_FORM_DATA:
+          return undefined; // clear form data
+        default:
+          return state;
+      }
+    },
+  }),
   isSignedIn,
   questions,
   questionNumber,
