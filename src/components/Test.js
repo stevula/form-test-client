@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchQuestions } from '../actions';
+import Question from './Question';
 
 class Test extends Component {
   componentWillMount() {
@@ -11,7 +12,7 @@ class Test extends Component {
   render() {
     return (
       <div>
-        {this.props.questions}
+        <Question question={this.props.questions[this.props.questionNumber]} />
       </div>
     );
   }
@@ -19,10 +20,12 @@ class Test extends Component {
 
 Test.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
+  questionNumber: PropTypes.string.isRequired,
   questions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = state => ({
+  questionNumber: state.questionNumber,
   questions: state.questions,
 });
 

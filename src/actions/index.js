@@ -45,10 +45,19 @@ export const receiveQuestions = questions => ({
   questions,
 });
 
+export const SET_QUESTION_NUMBER = 'SET_QUESTION_NUMBER';
+export const setQuestionNumber = questionNumber => ({
+  type: SET_QUESTION_NUMBER,
+  questionNumber,
+});
+
 export const fetchQuestions = () => (dispatch) => {
   return axios.get(`${API_ROOT}/questions`, {
     headers: { authorization: window.localStorage.getItem('token') },
   })
-    .then(response => dispatch(receiveQuestions(response.data.questions)))
+    .then((response) => {
+      dispatch(receiveQuestions(response.data.questions));
+      dispatch(setQuestionNumber(0));
+    })
     .catch(error => dispatch(addError(error.response.data.message)));
 };
