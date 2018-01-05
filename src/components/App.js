@@ -11,8 +11,7 @@ export default class App extends Component {
       <div className="App">
         <Header />
         <Switch>
-          <Route exact path="/" render={() => <div>You are Home</div>} />
-          <Route path="/signup" component={Signup} />
+          <Route exact path="/" component={Signup} />
           <Route path="/test" component={withAuth(Test)} />
           <Route render={() => <div>Not found</div>} />
         </Switch>

@@ -119,7 +119,7 @@ class Signup extends Component {
           disabled={submitting}
           className="btn btn-primary"
         >
-          Sign up
+          Submit
         </button>
       </form>
     );

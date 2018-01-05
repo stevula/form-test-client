@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ROOT = 'http://localhost:3000';
+const API_ROOT = 'http://localhost:4000';
 
 export const AUTH_USER = 'AUTH_USER';
 export const authUser = () => ({ type: AUTH_USER });
