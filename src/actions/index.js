@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ROOT = process.env.API_ROOT || 'http://localhost:4000';
+const API_ROOT = process.env.API_ROOT || 'https://strive-back-end.herokuapp.com';
 
 export const AUTH_USER = 'AUTH_USER';
 export const authUser = () => ({ type: AUTH_USER });
