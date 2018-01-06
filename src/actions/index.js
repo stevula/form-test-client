@@ -11,12 +11,16 @@ export const addError = error => ({ type: ADD_ERROR, error });
 export const REMOVE_ERROR = 'REMOVE_ERROR';
 export const removeError = error => ({ type: ADD_ERROR, error });
 
+export const UPDATE_EMAIL = 'UPDATE_EMAIL';
+export const updateEmail = email => ({ type: UPDATE_EMAIL, email });
+
 export const signinUser = ({ email, firstName, lastName }) => (dispatch) => {
   return axios.post(`${API_ROOT}/signin`, { email, firstName, lastName })
     .then((response) => {
       // dispatch(removeError());
       window.localStorage.setItem('token', response.data.token);
       dispatch(authUser());
+      dispatch(updateEmail(email));
     })
     .catch(error => dispatch(addError(error.message)));
 };
@@ -27,6 +31,7 @@ export const signupUser = ({ email, firstName, lastName }) => (dispatch) => {
       // dispatch(removeError());
       window.localStorage.setItem('token', response.data.token);
       dispatch(authUser());
+      dispatch(updateEmail(email));
     })
     .catch(error => dispatch(addError(error.response.data.message)));
 };
@@ -64,10 +69,19 @@ export const clearFormData = () => ({
   type: CLEAR_FORM_DATA,
 });
 
-export const submitQuestion = ({ questionNumber, answer }) => (dispatch) => {
-  dispatch(incrementQuestionNumber());
+export const sendAnswer = ({ email, questionNumber, answer }) => (dispatch) => {
+  return axios.patch(
+    `${API_ROOT}/answers`,
+    { email, questionNumber, answer },
+    { headers: { authorization: window.localStorage.getItem('token') } },
+  )
+    .then(() => dispatch(incrementQuestionNumber()))
+    .catch(error => dispatch(addError(error.response.data.message)));
+};
+
+export const submitQuestion = ({ email, questionNumber, answer }) => (dispatch) => {
+  dispatch(sendAnswer({ email, questionNumber, answer }));
   dispatch(clearFormData());
-  // TODO send data to server
 };
 
 export const SET_TIMER = 'SET_TIMER';
@@ -90,8 +104,8 @@ export const startTimer = ms => (dispatch) => {
 export const COMPLETE_TEST = 'COMPLETE_TEST';
 export const completeTest = () => ({ type: COMPLETE_TEST });
 
-export const submitFinalQuestion = ({ questionNumber, answer }) => (dispatch) => {
+export const submitFinalQuestion = ({ email, questionNumber, answer }) => (dispatch) => {
   clearInterval(timer);
-  dispatch(submitQuestion({ questionNumber, answer }));
+  dispatch(submitQuestion({ email, questionNumber, answer }));
   dispatch(completeTest());
 };

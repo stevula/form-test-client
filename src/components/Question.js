@@ -22,18 +22,27 @@ class Question extends Component {
       this.props.startTimer(this.props.question.ms);
     }
     if (this.props.timer <= 0) {
-      const { questionNumber, answer } = this.props;
-      this.handleFormSubmit({ questionNumber, answer });
+      const { email, questionNumber, answer = 'no answer given' } = this.props;
+      this.handleFormSubmit({ questionNumber, answer, email });
     }
   }
 
-  handleFormSubmit({ questionNumber, answer }) {
+  handleFormSubmit() {
+    const { email, questionNumber, answer = 'no answer given' } = this.props;
     if (this.props.isLastQuestion) {
-      this.props.submitFinalQuestion({ questionNumber, answer });
+      this.props.submitFinalQuestion({
+        questionNumber,
+        answer,
+        email,
+      });
     } else {
-      this.props.submitQuestion({ questionNumber, answer });
+      this.props.submitQuestion({
+        questionNumber,
+        answer,
+        email,
+      });
     }
-    // TODO figure out bug where validations don't apply to questions >= 1
+    // TODO figure out bug why validations don't apply to questions >= 1
   }
 
   isValidEmail(email) {
@@ -118,6 +127,7 @@ class Question extends Component {
 
 Question.propTypes = {
   answer: PropTypes.string,
+  email: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   isLastQuestion: PropTypes.bool.isRequired,
@@ -134,6 +144,7 @@ const form = 'question';
 const selector = formValueSelector(form);
 
 const mapStateToProps = state => ({
+  email: state.email,
   errorMessage: state.errorMessage,
   answer: selector(state, 'question'),
   timer: state.timer,
@@ -141,11 +152,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   startTimer: ms => dispatch(startTimer(ms)),
-  submitFinalQuestion: ({ questionNumber, answer }) => {
-    dispatch(submitFinalQuestion({ questionNumber, answer }));
+  submitFinalQuestion: ({ questionNumber, answer, email }) => {
+    dispatch(submitFinalQuestion({ questionNumber, answer, email }));
   },
-  submitQuestion: ({ questionNumber, answer }) => {
-    dispatch(submitQuestion({ questionNumber, answer }));
+  submitQuestion: ({ questionNumber, answer, email }) => {
+    dispatch(submitQuestion({ questionNumber, answer, email }));
   },
 });
 

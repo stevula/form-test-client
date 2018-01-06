@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
+import email from './email';
 import errorMessage from './errorMessage';
 import isSignedIn from './isSignedIn';
 import isComplete from './isComplete';
@@ -9,6 +10,7 @@ import timer from './timer';
 import { CLEAR_FORM_DATA } from '../actions';
 
 const rootReducer = combineReducers({
+  email,
   errorMessage,
   form: form.plugin({
     // clear the question form on clicking next

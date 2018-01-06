@@ -66,9 +66,9 @@ class Signup extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting, isSignedIn } = this.props;
+    const { handleSubmit, submitting, isSignedIn, email } = this.props;
 
-    if (isSignedIn) {
+    if (isSignedIn && email) {
       return (
         <Redirect to={{
           pathname: '/test',
@@ -138,6 +138,7 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
+  email: PropTypes.string,
   errorMessage: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   isSignedIn: PropTypes.bool.isRequired,
@@ -146,6 +147,7 @@ Signup.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  email: state.email,
   errorMessage: state.errorMessage,
   isSignedIn: state.isSignedIn,
 });

@@ -37,7 +37,6 @@ class Test extends Component {
         />
       </div>
     );
-
   }
 
   renderConfirmation() {

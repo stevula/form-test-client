@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 export default (WrappedComponent) => {
   class withAuth extends Component {
     render() {
-      if (!this.props.isSignedIn) {
+      if (!this.props.isSignedIn || !this.props.email) {
         return <Redirect to="/" />;
       }
 
@@ -15,11 +15,15 @@ export default (WrappedComponent) => {
   }
 
   withAuth.propTypes = {
+    email: PropTypes.string.isRequired,
     isSignedIn: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
   };
 
-  const mapStateToProps = state => ({ isSignedIn: state.isSignedIn });
+  const mapStateToProps = state => ({
+    email: state.email,
+    isSignedIn: state.isSignedIn,
+  });
 
   return connect(mapStateToProps)(withAuth);
 };
