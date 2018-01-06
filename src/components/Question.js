@@ -21,7 +21,7 @@ class Question extends Component {
     if (this.props.question !== prevProps.question) {
       this.props.startTimer(this.props.question.ms);
     }
-    if (this.props.timer <= 0) {
+    if (this.props.timer <= 0 && this.props.timer !== prevProps.timer) {
       const { email, questionNumber, answer = 'no answer given' } = this.props;
       this.handleFormSubmit({ questionNumber, answer, email });
     }
