@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 import errorMessage from './errorMessage';
 import isSignedIn from './isSignedIn';
+import isComplete from './isComplete';
 import questions from './questions';
 import questionNumber from './questionNumber';
 import timer from './timer';
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
       }
     },
   }),
+  isComplete,
   isSignedIn,
   questions,
   questionNumber,

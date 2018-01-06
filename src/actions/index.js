@@ -70,10 +70,6 @@ export const submitQuestion = ({ questionNumber, answer }) => (dispatch) => {
   // TODO send data to server
 };
 
-export const submitFinalQuestion = ({ questionNumber, answer }) => (dispatch) => {
-  // TODO send data to server and render confirmation page
-};
-
 export const SET_TIMER = 'SET_TIMER';
 const setTimer = ms => ({
   type: SET_TIMER,
@@ -89,4 +85,13 @@ export const startTimer = ms => (dispatch) => {
   timer = setInterval(() => dispatch(tickTimer()), 1000);
   dispatch(setTimer(ms));
   dispatch(tickTimer());
+};
+
+export const COMPLETE_TEST = 'COMPLETE_TEST';
+export const completeTest = () => ({ type: COMPLETE_TEST });
+
+export const submitFinalQuestion = ({ questionNumber, answer }) => (dispatch) => {
+  clearInterval(timer);
+  dispatch(submitQuestion({ questionNumber, answer }));
+  dispatch(completeTest());
 };

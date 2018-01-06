@@ -15,6 +15,14 @@ class Test extends Component {
       return null;
     }
 
+    if (this.props.isComplete) {
+      return this.renderConfirmation();
+    }
+
+    return this.renderQuestion();
+  }
+
+  renderQuestion() {
     const currentQuestion = this.props.questions[this.props.questionNumber];
     const isLastQuestion = (
       this.props.questionNumber === this.props.questions.length - 1
@@ -29,16 +37,27 @@ class Test extends Component {
         />
       </div>
     );
+
+  }
+
+  renderConfirmation() {
+    return (
+      <div>
+        Thank you for completing the assessment.
+      </div>
+    );
   }
 }
 
 Test.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
+  isComplete: PropTypes.bool.isRequired,
   questionNumber: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = state => ({
+  isComplete: state.isComplete,
   questionNumber: state.questionNumber,
   questions: state.questions,
 });
