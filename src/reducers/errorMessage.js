@@ -7,7 +7,8 @@ const errorMessage = (state = null, action) => {
     case REMOVE_ERROR:
       return null;
     default:
-      return state;
+      // remove error on any action
+      return null;
   }
 };
 
